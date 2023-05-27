@@ -1,49 +1,56 @@
 import React, {useState} from 'react';
 import './App.css';
 
-// import {Button} from "./components/Button";
 
+type FilterType = 'all' | 'Dollars' | 'RUBLS'
 
 function App() {
-    let [a, setA] = useState(1)
+
+    const [money, setMoney,] = useState([
+        {banknots: 'Dollars', value: 100, number: ' a1234567890'},
+        {banknots: 'Dollars', value: 50, number: ' z1234567890'},
+        {banknots: 'RUBLS', value: 100, number: ' w1234567890'},
+        {banknots: 'Dollars', value: 100, number: ' e1234567890'},
+        {banknots: 'Dollars', value: 50, number: ' c1234567890'},
+        {banknots: 'RUBLS', value: 100, number: ' r1234567890'},
+        {banknots: 'Dollars', value: 50, number: ' x1234567890'},
+        {banknots: 'RUBLS', value: 50, number: ' v1234567890'},
+    ])
+    const [filter, setFilter] = useState<FilterType>('all')
+    let currentMoney = money;
+    if (filter === 'Dollars') {
+        currentMoney = money.filter(filteredMoney => filteredMoney.banknots === 'Dollars')
+    }
+    if (filter === 'RUBLS') {
+        currentMoney = money.filter(filteredMoney => filteredMoney.banknots === 'RUBLS')
+    }
 
 
-
-    const onClickHandler = () => {
-        setA(++a);
-        console.log(a)
+    const onClickFilterHandler = (nameButton: FilterType) => {
+        setFilter(nameButton)
 
     }
-    const onClickHandler0 = () => {
-        setA(0);
-        console.log(0)
-
-    }
-
-
-
-    // const Button1Foo = (subscriber: string, age: number, adres: string) => {
-    //     console.log(subscriber, age, adres)
-    // }
-    // const Button2Foo = (subscriber: string, age: number) => {
-    //     console.log(subscriber, age)
-    // }
-    // const Button3Foo = () => {
-    //     console.log('i stuped button')
-
 
     return (
-        <div className={'App'}>
-            <h1>{a}</h1>
-            <button onClick={onClickHandler}>number</button>
-            <button onClick={onClickHandler0}>0</button>
-        </div>
 
-        // <div className={'App'}>
-        //     <Button name={'MyYouTubeChanel-1'} callBack={() => Button1Foo('im Yana', 21, 'live in Minsk')}/>
-        //     <Button name={'MyYouTubeChanel-2'} callBack={() => Button2Foo('im Vasya', 18)}/>
-        //     <Button name={'Stuped'} callBack={Button3Foo}/>
-        // </div>
+        <>
+            <ul>
+                {currentMoney.map((objFromMoneyArr, index) => {
+                    return (
+                        <li key={index}>
+                            <span>{objFromMoneyArr.banknots}</span>
+                            <span>{objFromMoneyArr.value}</span>
+                            <span>{objFromMoneyArr.number}</span>
+                        </li>
+                    )
+                })}
+            </ul>
+            <div style={{marginLeft: '35px'}}>
+                <button onClick={() => onClickFilterHandler('all')}>all</button>
+                <button onClick={() => onClickFilterHandler('RUBLS')}>RUBLS</button>
+                <button onClick={() => onClickFilterHandler('Dollars')}>Dollars</button>
+            </div>
+        </>
 
     );
 }
